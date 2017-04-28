@@ -1,0 +1,26 @@
+*{margin: 0;padding: 0}
+body{Font-size:62.5%; background:#f8f8f8;width: 100%; }
+
+input{
+    -webkit-appearance: none;
+    border: none;
+}
+input:focus{
+    border: none;
+}
+.display_box{
+    display: -webkit-box;
+    display: -moz-box;
+}
+
+.display_flex{
+    -moz-box-flex: 1;
+    -webkit-box-flex: 1;
+    width: 100%;
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+    color: #bbbbbb;
+    font-weight: 200;
+}
+a,img,button,input,textarea{-webkit-tap-highlight-color:rgba(255,255,255,0);}

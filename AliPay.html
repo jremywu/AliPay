@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no"/>
+    <link rel="stylesheet" href="style/base.css"/>
+    <title>充流量</title>
+    <style>
+        .input_container{
+            position: relative;
+            background: #fff;
+            padding: 1.2em 1.5em 1.6em 1.8em;
+            height: 5em;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .input_container .out{
+            position: relative;
+            -moz-box-flex: 3;
+            -webkit-box-flex: 3;
+            width:100%;
+            height: 100%;
+        }
+
+        .input_container input::-webkit-input-placeholder{
+            font-size: 0.8em;
+            font-weight: 200;
+        }
+
+        .input_container input{
+            position: relative;
+            font-size: 3em;
+            font-weight: 300;
+            color: #000;
+            height: 1.666em;
+            width: 100%;
+            border: none;
+        }
+
+        .input_container .right_ico{
+            -moz-box-flex: 27;
+            -webkit-box-flex: 27;
+            width: 100%;
+            background: url("image/person_icon.png") center  right no-repeat;
+            background-size: 2.3em 2.3em;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+        }
+        .input_container .error{
+            position: absolute;
+            display: none;
+            left: 1.95em;
+            bottom: 0.75em;
+            width: 100%;
+            color: red;
+        }
+        .input_container .error.disable{
+            display: block;
+        }
+        .input_container .error.active{
+            display: block;
+            color: #bbbbbb;
+        }
+
+
+    </style>
+</head>
+<body id="dynamicSize">
+    <div class="input_container display_box">
+        <div class="out"><input type="tel" maxlength="13" placeholder="请输入手机号码" id="phoneInput" onblur="onBlur()" onfocus="inputOnFocus()" unselectable="on"/></div>
+        <div class="right_ico"></div>
+        <p class="error">请输入正确的手机号</p>
+    </div>
+
+
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/dynamicFontSize.js"></script>
+<script>
+    setDynamicFontSize("dynamicSize",320);
+
+    $(function () {
+        $('#phoneInput').on('input',function () {
+            //输入框344格式化
+            $('.input_container .error').removeClass('disable');
+           var $val = $(this).val();
+           var $this = $(this);
+           var phone = TrimAll($(this).val(),'g');
+            document.onkeyup=function(event){
+                var event=event||window.event;
+                if(event.keyCode==8){
+                    if ($val.length==4||$val.length==9) {
+                        $this.val($val.slice(0,$val.length-1));
+                    }
+                }
+            };
+            if ($val.length==4||$val.length==9) {
+                $(this).val(insertSpace($val));
+            }
+
+            validNext();
+            changeRightIcon(phone.length>0&&!isValid());
+        });
+
+
+        $('.right_ico').click(function () {
+            var $input = $('#phoneInput');
+            $input.val("");
+            $input[0].focus();
+        });
+        
+        function validNext() {//输入合法后，下一步事件
+            if (isValid()){
+                $('#phoneInput').blur();
+            }else {
+
+            }
+        }
+    });
+
+
+    function onBlur() {//失去焦点
+      var  $error = $('.input_container .error');
+        $('#phoneInput').val().length==0 || isValid()?$error.removeClass('disable'):$error.addClass('disable');
+        changeRightIcon(false);
+    }
+    function inputOnFocus() {//焦点事件
+        $('.input_container .error').removeClass('disable');
+        changeRightIcon($('#phoneInput').val().length>0);
+    }
+
+
+    function changeRightIcon(bool) {//改变右边的图标
+        if (!bool){
+            $('.input_container .right_ico').css({
+                "background": "url('image/person_icon.png') center  right no-repeat",
+                "background-size": "2.3em 2.3em"
+            })
+        }else {
+            $('.input_container .right_ico').css({
+                "background": "url('image/input_close.png') center  right no-repeat",
+                "background-size": "2.5em 2.5em"
+            })
+        }
+    }
+    function isValid() { //输入是否符合
+        return /^1\d{10}$/g.test(TrimAll($('#phoneInput').val(),'g'));
+    }
+    function insertSpace(str) { //344相关
+        return str.slice(0,str.length-1)+" "+str.slice(str.length-1,str.length);
+    }
+    function TrimAll(str, is_global) {//除去空格
+        var result;
+        result = str.replace(/(^\s+)|(\s+$)/g, "");
+        if (is_global.toLowerCase() == "g") {
+            result = result.replace(/\s/g, "");
+        }
+        return result;
+    }
+
+
+</script>
+</body>
+</html>
