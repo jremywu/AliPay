@@ -4,66 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="format-detection" content="telephone=no"/>
-    <link rel="stylesheet" href="style/base.css"/>
+    <link rel="stylesheet" type="text/css" href="style/base.css"/>
+    <link rel="stylesheet" type="text/css" href="style/AliPay.css"/>
     <title>充流量</title>
     <style>
-        .input_container{
-            position: relative;
-            background: #fff;
-            padding: 1.2em 1.5em 1.6em 1.8em;
-            height: 5em;
-            border-bottom: 1px solid #dddddd;
-        }
-
-        .input_container .out{
-            position: relative;
-            -moz-box-flex: 3;
-            -webkit-box-flex: 3;
-            width:100%;
-            height: 100%;
-        }
-
-        .input_container input::-webkit-input-placeholder{
-            font-size: 0.8em;
-            font-weight: 200;
-        }
-
-        .input_container input{
-            position: relative;
-            font-size: 3em;
-            font-weight: 300;
-            color: #000;
-            height: 1.666em;
-            width: 100%;
-            border: none;
-        }
-
-        .input_container .right_ico{
-            -moz-box-flex: 27;
-            -webkit-box-flex: 27;
-            width: 100%;
-            background: url("image/person_icon.png") center  right no-repeat;
-            background-size: 2.3em 2.3em;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-        }
-        .input_container .error{
-            position: absolute;
-            display: none;
-            left: 1.95em;
-            bottom: 0.75em;
-            width: 100%;
-            color: red;
-        }
-        .input_container .error.disable{
-            display: block;
-        }
-        .input_container .error.active{
-            display: block;
-            color: #bbbbbb;
-        }
-
 
     </style>
 </head>
@@ -109,7 +53,7 @@
             $input.val("");
             $input[0].focus();
         });
-        
+
         function validNext() {//输入合法后，下一步事件
             if (isValid()){
                 $('#phoneInput').blur();
@@ -130,7 +74,6 @@
         changeRightIcon($('#phoneInput').val().length>0);
     }
 
-
     function changeRightIcon(bool) {//改变右边的图标
         if (!bool){
             $('.input_container .right_ico').css({
@@ -144,13 +87,29 @@
             })
         }
     }
-    function isValid() { //输入是否符合
+
+    function isValid() {
         return /^1\d{10}$/g.test(TrimAll($('#phoneInput').val(),'g'));
     }
-    function insertSpace(str) { //344相关
+
+    /**
+     * 倒数第二插入空格
+     * @param str
+     * @returns {string}
+     */
+    function insertSpace(str) {
         return str.slice(0,str.length-1)+" "+str.slice(str.length-1,str.length);
     }
-    function TrimAll(str, is_global) {//除去空格
+
+    /**
+     * 去除空格
+     * @param str
+     * @param is_global
+     * @returns {string|void|XML|*}
+     * @constructor
+     */
+
+    function TrimAll(str, is_global) {
         var result;
         result = str.replace(/(^\s+)|(\s+$)/g, "");
         if (is_global.toLowerCase() == "g") {
